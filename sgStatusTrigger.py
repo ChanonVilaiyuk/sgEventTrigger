@@ -5,7 +5,7 @@ applicationName = 'api_script'
 applicationKey = '0b71a5525895120e4bd3972348e3e2e559a53ec3'
 projectFilter = 'ttv_e'
 error = []
-logPath = 'U:/extensions/studioTools/logs'
+logPath = 'U:/extensions/studioTools'
 
 print '\n\n', datetime.now()
 print '======================================'
@@ -317,7 +317,6 @@ def writeLog(rawData, entity) :
     logFiles = [normalLog, dataLog]
     logPath = os.path.dirname(normalLog)
     startText = 'Start log'
-    timeStr = str(datetime.now()).split(' ')[-1]
 
     if not os.path.exists(logPath) : 
         os.makedirs(logPath)
@@ -329,18 +328,20 @@ def writeLog(rawData, entity) :
             f.close()
 
     
+    timeStr = str(datetime.now()).split(' ')[-1]
     display = rawData['display']
     displayData = '[%s] %s' % (timeStr, display)
-    f = open(normalLog, 'a')
-    writeData = '\n%s' % displayData
-    f.write(writeData)
-    f.close()
-
-
-    timeStr = str(datetime.now()).split(' ')[-1]
-    f = open(dataLog, 'a')
     rawData['date'] = timeStr
-    writeData = '\n%s' % str(rawData)
+
+    appendLog(display, normalLog)
+    appendLog(str(rawData), dataLog)
+
+    
+ 
+def appendLog(rawData, filePath) : 
+
+    f = open(filePath, 'a')
+    writeData = '\n%s' % rawData
     f.write(writeData)
     f.close()
 
